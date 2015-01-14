@@ -1,0 +1,178 @@
+html {
+	min-height:100%;
+}
+
+body {
+	font-family: "Arial";
+	font-size: 1em;
+	text-align: center;
+	align: center;
+	margin-right: 0px;
+	width:100%;
+	height: 100%;
+}
+
+/* Button Styles */
+.redeem {
+	width: 100%;
+	margin: 0 10px 10px 0;
+	padding: 10px;
+	color: #FFF;
+	border: solid 3px #DFD0E0;
+	border-radius:10px;
+	background: #734474;
+	background: -webkit-gradient(linear, left top, left bottom, from(#895D8A), to(#572D5A));
+	background: -moz-linear-gradient(top,  ##895D8A,  #572D5A);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#895D8A', endColorstr='#572D5A');
+}
+
+.redeem:active {
+	background: #f47c20;
+	background: -webkit-gradient(linear, left top, left bottom, from(#572D5A), to(#734474));
+	background: -moz-linear-gradient(top,  #572D5A,  #734474);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#572D5A', endColorstr='#734474');
+}
+
+.expired, .redeemed {
+	width: 100%;
+	margin: 0 10px 10px 0;
+	padding: 10px;
+	color: #FFF;
+	text-shadow: 1px 1px #000;
+	border: solid 3px #FF0000;
+	border-radius:10px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#CA0000), to(#990000));
+	background: -moz-linear-gradient(top,  #CA0000,  #990000);
+}
+
+.btn-title {
+	font-size: 1.5em;
+	display: block;
+}
+
+.btn-subtitle {
+	font-size: 1em;
+	display: block;
+}
+
+/* Background Div Styles */
+.top {
+	padding: 1em .5em 1em .5em;
+}
+
+.main {
+	/*padding: 1em .5em 1em .5em;*/
+	padding-bottom: 1em;
+}
+
+.middle {
+	padding: 1em .5em 1em .5em;
+}
+
+.footer {
+	padding: 1em .5em 1em .5em;
+}
+
+/* Text Styles */
+.top .sub-text {
+	font-size: 1em;
+}
+
+.top .title-text-big  {
+	font-size: 2em;
+}
+
+.top .title-text-small  {
+	font-size: 1.5em;
+}
+
+.main .title-text-big {
+	font-size: 2.5em;
+}
+
+.main .title-text-small {
+	font-size: 2em;
+}
+
+.collapse-text-title {
+	font-size: .8em;
+	padding: 5px;
+}
+
+.collapse-text {
+	font-size: .75em;
+	display: none;
+}
+
+.pre-button-text {
+	font-size: .8em;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.post-button-text {
+	font-size: .9em;
+	padding-top: 5px;
+	padding-top: 5px;
+}
+
+.download-info-header {
+	font-size: .8em;
+	padding-bottom: 5px
+}
+
+.download-info {
+	font-size: .75em;
+}
+
+.about-text {
+	width:45%;
+	display: inline-block;
+	font-size: .66em;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.about-text-link {
+	font-style: italic;
+	font-weight: bold;
+}
+
+.unsub-text {
+	padding-top: 10px;
+	width:95%;
+	font-size: .66em;
+	text-align: center;
+	vertical-align: middle;
+}
+
+/* Image Styles */
+img.downloader {
+	height:2.5em;
+	padding: 5px 5px 0 5px;
+}
+
+img.logo {
+	display: inline-block;
+	width: 45%;
+	padding: 0 10px 0 10px;
+	vertical-align: middle;
+}
+
+.special-overlay {
+	width: 100%;
+	position: relative; 
+}
+
+img.special {
+	width: 100%;
+}
+
+.special-overlay p {
+	position: absolute; 
+	/*top: 200px; */
+	font-size: 2em;
+	color: white;
+	left: 0; 
+	width: 100%;
+}

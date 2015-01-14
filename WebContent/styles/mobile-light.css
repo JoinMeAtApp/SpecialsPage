@@ -1,0 +1,73 @@
+body {
+	background-color: #E5E5E5;
+}
+
+/* Background Div Styles */
+.top {
+	background-color: #F2F2F2;
+}
+
+.main {
+	background-color: #FFFFFF;
+}
+
+.middle {
+	background-color: #F2F2F2;
+}
+
+.footer {
+	background-color: #E5E5E5;
+}
+
+/* Text Styles */
+.top .sub-text {
+	color: #999999;
+}
+
+.top .title-text-big  {
+	color: #148AB8;
+}
+
+.top .title-text-small  {
+	color: #148AB8;
+}
+
+.main .title-text-big {
+	color: #148AB8;
+}
+
+.main .title-text-small {
+	color: #148AB8;
+}
+
+.collapse-text-title {
+	color: #999999;
+}
+
+.collapse-text {
+	color: #4A4A4A;
+}
+
+.pre-button-text {
+	color: #4A4A4A;
+}
+
+.post-button-text {
+	color: #4A4A4A;
+}
+
+.download-info-header {
+	color: #000000;
+}
+
+.download-info {
+	color: #4A4A4A;
+}
+
+.about-text, .unsub-text {
+	color: #999999;
+}
+
+.about-text-link {
+	color: #666666;
+}

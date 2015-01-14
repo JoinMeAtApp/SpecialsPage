@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+   		<title>JoinMe@</title>
+		<link rel="stylesheet" href="styles/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="styles/bootstrap.min.css">
+		<link rel="stylesheet" href="styles/mobile.css">
+		<link rel="stylesheet" href="styles/mobile-light.css">
+	</head>
+	<body>
+		<div class="top">
+			<script id="top" type="text/x-handlebars-template">
+				<div class="sub-text">A friend is at</div>
+				<div class="title-text-big">{{name}}</div>
+				<div class="sub-text">and sent you a deal:</div>
+			</script>
+		</div>
+		<div class="main">
+			<script id="main-body" type="text/x-handlebars-template">
+				<div class="special-overlay">
+					<img class="special" src={{image}}>
+					<p>{{specialTitle}}</p>
+				</div>
+
+				<p>This deal is ready, no downloads or logins required!  Make sure your server sees this page and watches you redeem.</p>
+
+				<button>Thanks, I'll Take it!</button>
+				<p>Use: {{startTime}} - {{endTime}}</p>
+
+				<h4>Your friend got a better deal.  But you can too.</h4>
+				<p>Download JoinMe@ to earn your own awesome deals by sharing with your friends</p>
+			</script>
+		</div>
+
+		<div class="footer">
+			<img class="logo" src="assets/JMA-logo.png">
+			<div class="about-text">JoinMe@ is a new kind of deal-sharing and loyalty app.<br>
+				To learn more about how it works, <a class="about-text-link" href="http://joinmeatapp.com">click here</a>.
+			</div>
+			<div class="unsub-text">
+				Don't want awesome deals from your friends? Suit yourself:
+				<a class="about-text-link" href="#">unsubscribe from our list</a>
+				and we'll make sure friends can't share deals with you in the future.
+			</div>
+		</div>
+	</body>
+
+	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="js/lib/bootstrap.min.js"></script>
+	<script src="js/lib/handlebars-v2.0.0.js"></script>
+	<script src="js/lib/moment.min.js"></script>
+	<script src="js/index.js"></script>
+	<script src="js/services.js"></script>
+</html>
