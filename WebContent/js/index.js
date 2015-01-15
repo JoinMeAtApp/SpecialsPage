@@ -35,7 +35,6 @@ App = {
 
 
 $(document).ready(function() {
-	console.log('ready!');
 	var url = window.location.search.substring(1);
 	var vars = url.split("=");
 	var code = vars[vars.length - 1];
