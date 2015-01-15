@@ -19,29 +19,68 @@ Twitter = {
 	    return result;
 	},*/
 
-	oAuth: function() {
-		var oauth = OAuth({
-			consumer: {
-				public: this.TWITTER_TEST_CONSUMER_KEY,
-	    		secret: this.TWITTER_TEST_CONSUMER_SECRET,
-			},
-			signature_method: 'HMAC-SHA1'
+	oAuthRequest: function() {
+
+		$.ajax({
+			url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/oauth',
+			type: 'POST',
+			success: function(data) {
+				window.location = 'https://api.twitter.com/oauth/authenticate?oauth_token=' + data;
+			} ,
+			error: function(error) {
+				console.log('total failure, noob');
+			}
+		});
+	},
+	oAuthAccess: function() {
+		$.ajax({
+			url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/user',
+			type: 'POST',
+			dataType: 'json',
+			data: { verifier: App.oauth_verifier },
+			success: function(data) {
+				var User = data;
+			} ,
+			error: function(error) {
+				console.log('total failure, noob');
+			}
+		});
+	}
+
+
+		/*var oauth = OAuth({
+		    consumer: {
+		        public: this.TWITTER_TEST_CONSUMER_KEY,
+		        secret: this.TWITTER_TEST_CONSUMER_SECRET
+		    },
+		    signature_method: 'HMAC-SHA1'
 		});
 
 		var token = {
-			public: this.TWITTER_TEST_ACCESS_TOKEN,
-			secret: this.TWITTER_TEST_ACCESS_SECRET
+		    public: this.TWITTER_TEST_ACCESS_TOKEN,
+		    secret: this.TWITTER_TEST_ACCESS_SECRET
 		};
 
-		var requestData = {
-			url: 'https://api.twitter.com/oauth/request_token',
-			method: 'post',
-			/*data: {
-				oauth_callback: 'http://google.com'
-			}*/
+		var request_data = {
+		    url: 'https://api.twitter.com/oauth/request_token',
+		    method: 'POST'
 		};
 
-		var auth = oauth.authorize(requestData, token);
+		var auth = oauth.authorize(request_data, token);
+		var authHeader = oauth.toHeader(auth);
+
+		$.ajax({
+		    url: request_data.url,
+		    type: request_data.method,
+		    data: request_data.data,
+		    dataType: 'json',
+		    headers: authHeader
+		}).done(function(data) {
+			console.log('done data: ' + data);
+		    //process your data here
+		});*/
+
+		/*var auth = oauth.authorize(requestData, token);
 		var testHeader = oauth.toHeader(auth);
 
 		$.ajax({
@@ -63,5 +102,5 @@ Twitter = {
 			console.log("all!");
 		});
 
-	}
+	}*/
 }

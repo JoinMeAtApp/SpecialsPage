@@ -4,6 +4,9 @@ App = {
 	pageData: null,
 	topTemplate: null,
 	midTemplate: null,
+	oauthSuccess: false,
+	oauth_verifier: null,
+	oauth_token: null,
 	specialCallback: function(merchantID) {
 		var self = this;
 		Services.getMerchant(merchantID).then(
@@ -37,14 +40,19 @@ App = {
 $(document).ready(function() {
 	var url = window.location.search.substring(1);
 	var vars = url.split("=");
-	var code = vars[vars.length - 1];
+	var code = vars[1];
+	oauth_token = vars.length >= 3 ? vars [2] : null;
+	oauth_verifier = vars.length >= 4 ? vars[3] : null;
 
 	var topSource = $('#top').html();
 	var midSource = $('#main-body').html();
 	topTemplate = Handlebars.compile(topSource);
 	midTemplate = Handlebars.compile(midSource);
 
-	Services.getSpecial(code).then(
+	if (code === 'success') {
+		this.oauthSuccess = true;
+	} else {
+		Services.getSpecial(code).then(
 		function(data) {
 			if (data) {
 				App.special = data;
@@ -54,4 +62,7 @@ $(document).ready(function() {
 		function(error) {
 
 		});
+	}
+
+	
 });
