@@ -24,22 +24,43 @@ Twitter = {
 		$.ajax({
 			url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/oauth',
 			type: 'POST',
+			dataType: 'json',
 			success: function(data) {
-				window.location = 'https://api.twitter.com/oauth/authenticate?oauth_token=' + data;
-			} ,
+				document.cookie = "token=" + data.token;
+				document.cookie = "tokenSecret=" + data.tokenSecret;
+				window.location = data.authURL;
+			},
 			error: function(error) {
 				console.log('total failure, noob');
 			}
 		});
 	},
 	oAuthAccess: function() {
+		var cookies = document.cookie.split(';');
+		var oauthToken, oauthSecret;
+		var yesterday = moment().subtract(1, 'days').utc();
+
+		// Get the token & secret, the remove both cookies
+		for (var i = 0; i < cookies.length; i ++) {
+			if (cookies[i].indexOf('tokenSecret') !== -1) {
+				oauthSecret = cookies[i].substring(13);
+				document.cookie = "tokenSecret=; expires" + yesterday;
+			} else if (cookies[i].indexOf('token') !== -1) {
+				oauthToken = cookies[i].substring(6);
+				document.cookie = "token=; expires=" + yesterday;
+			}
+		}
+
 		$.ajax({
 			url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/user',
 			type: 'POST',
 			dataType: 'json',
-			data: { verifier: App.oauth_verifier },
+			data: { verifier: App.oauth_verifier, token: oauthToken, tokenSecret: oauthSecret },
 			success: function(data) {
 				var User = data;
+				App.User = data;
+				// from here we need to send the tweet
+				// we *could* insert the tweet intent here, but then it won't capture the tweet event
 			} ,
 			error: function(error) {
 				console.log('total failure, noob');

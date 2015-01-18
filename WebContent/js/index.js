@@ -1,3 +1,12 @@
+twttr.events.bind(
+  'tweet',
+  function (event) {
+    // Do something there
+    console.log('tweet occurred!');
+    console.log('cookies: ' + document.cookie);
+  }
+);
+
 App = {
 	special: null,
 	merchant: null,
@@ -36,21 +45,21 @@ App = {
 	}
 }
 
-
 $(document).ready(function() {
 	var url = window.location.search.substring(1);
 	var vars = url.split("=");
 	var code = vars[1];
-	oauth_token = vars.length >= 3 ? vars [2] : null;
-	oauth_verifier = vars.length >= 4 ? vars[3] : null;
 
 	var topSource = $('#top').html();
 	var midSource = $('#main-body').html();
 	topTemplate = Handlebars.compile(topSource);
 	midTemplate = Handlebars.compile(midSource);
 
-	if (code === 'success') {
+	if (code.indexOf('success') !== -1) {
 		this.oauthSuccess = true;
+		oauth_token = vars[2].substring(0, 32);
+		App.oauth_verifier = vars[3];
+		Twitter.oAuthAccess();
 	} else {
 		Services.getSpecial(code).then(
 		function(data) {

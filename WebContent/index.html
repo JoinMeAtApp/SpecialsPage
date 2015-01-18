@@ -27,7 +27,9 @@
 
 				<p>This deal is ready, no downloads or logins required!  Make sure your server sees this page and watches you redeem.</p>
 
-				<button>Thanks, I'll Take it!</button>
+				<button class="redeem btn-primary" onClick="Twitter.oAuthRequest()">
+					<span class="btn-title">Tweet to {{unlockQuantity}} Friends to immediately get this deal!</span>
+				</button>
 				<p>Use: {{startTime}} - {{endTime}}</p>
 
 				<h4>Your friend got a better deal.  But you can too.</h4>
@@ -35,8 +37,9 @@
 			</script>
 		</div>
 
-		<button onClick="Twitter.oAuthRequest()">Test oAuthRequest</button>
-		<button onClick="Twitter.oAuthAccess()">Test oAuthAccess</button>
+		<!--<a href="https://twitter.com/intent/tweet?hashtags=JoinMeAt&url=&text=">Tweet</a>
+
+		<button onClick="Twitter.oAuthAccess()">Test oAuthAccess</button>-->
 
 		<div class="footer">
 			<img class="logo" src="assets/JMA-logo.png">
@@ -53,6 +56,7 @@
 
 	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha1.js"></script>
+	<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
 	<!--<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>-->
 
 	<script src="js/lib/bootstrap.min.js"></script>
