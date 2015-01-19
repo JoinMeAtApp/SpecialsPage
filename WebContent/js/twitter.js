@@ -4,6 +4,9 @@ Twitter = {
 	TWITTER_TEST_ACCESS_TOKEN: "2870148905-33AsepCQFe9t7wJoLDY6lMEipyIm7u1sINmPMQZ",
 	TWITTER_TEST_ACCESS_SECRET: "CWvfcmf4NY1VaLohiQztUuJIRlRMCEJSJ1fN33k8aVJSX",
 	TWITTER_TEST_ID: '2870148905l',
+	
+	USER_TOKEN: null,
+	USER_SECRET: null,
 
 	// IRL Data
 	/*TWITTER_TEST_CONSUMER_KEY: "G8A0SlEYiwKD4ydEQeYIe3zZE",
@@ -45,9 +48,11 @@ Twitter = {
 			if (cookies[i].indexOf('tokenSecret') !== -1) {
 				oauthSecret = cookies[i].substring(13);
 				document.cookie = "tokenSecret=; expires" + yesterday;
+				this.USER_SECRET = oauthSecret;
 			} else if (cookies[i].indexOf('token') !== -1) {
 				oauthToken = cookies[i].substring(6);
 				document.cookie = "token=; expires=" + yesterday;
+				this.USER_TOKEN = oauthToken;
 			}
 		}
 
@@ -61,12 +66,28 @@ Twitter = {
 				App.User = data;
 				// from here we need to send the tweet
 				// we *could* insert the tweet intent here, but then it won't capture the tweet event
-			} ,
+				Twitter.statusUpdate(Twitter.USER_TOKEN, Twitter.USER_SECRET);
+			},
 			error: function(error) {
 				console.log('total failure, noob');
 			}
 		});
-	}
+	},
+	statusUpdate: function(token, secret) {
+
+		$.ajax({
+			url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/statusUpdate',
+			type: 'POST',
+			dataType: 'json',
+			data: { twitterToken: token, twitterSecret: secret },
+			success: function(status) {
+				console.log(status);
+			},
+			error: function(error) {
+				console.log('total failure, noob');
+			}
+		});
+	},
 
 
 		/*var oauth = OAuth({
