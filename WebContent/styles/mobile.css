@@ -17,21 +17,21 @@ body {
 	width: 100%;
 	margin: 0 10px 10px 0;
 	padding: 10px;
-	color: #FFF;
-	border: solid 3px #DFD0E0;
+	color: white;
+	background: #4099FF;
+	/*border: solid 3px #DFD0E0;
 	border-radius:10px;
-	background: #734474;
 	background: -webkit-gradient(linear, left top, left bottom, from(#895D8A), to(#572D5A));
 	background: -moz-linear-gradient(top,  ##895D8A,  #572D5A);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#895D8A', endColorstr='#572D5A');
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#895D8A', endColorstr='#572D5A');*/
 }
 
-.redeem:active {
+/*.redeem:active {
 	background: #f47c20;
 	background: -webkit-gradient(linear, left top, left bottom, from(#572D5A), to(#734474));
 	background: -moz-linear-gradient(top,  #572D5A,  #734474);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#572D5A', endColorstr='#734474');
-}
+}*/
 
 .expired, .redeemed {
 	width: 100%;
@@ -170,7 +170,7 @@ img.special {
 
 .special-overlay p {
 	position: absolute; 
-	/*top: 200px; */
+	top: 200px; 
 	font-size: 2em;
 	color: white;
 	left: 0; 

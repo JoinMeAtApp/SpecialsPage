@@ -25,21 +25,27 @@
 					<p>{{specialTitle}}</p>
 				</div>
 
-				<p>This deal is ready, no downloads or logins required!  Make sure your server sees this page and watches you redeem.</p>
+				<p>This deal is ready to use - Tweet it to your friends to unlock and use!</p>
 
-				<button class="redeem btn-primary" onClick="Twitter.oAuthRequest()">
-					<span class="btn-title">Tweet to {{unlockQuantity}} Friends to immediately get this deal!</span>
-				</button>
+				{{#if tweetSuccess}}
+					<h4>You've successfully Tweeted!  GOOD JORB HAM STRAY.</h4>
+				{{else}}
+					{{#if oauthSuccess}}
+						<a 	class="redeem" 
+							href="https://twitter.com/intent/tweet?hashtags=JoinMeAt&url=&text=" 
+							id="tweetIntent">
+							Tweet to {{unlockQuantity}} Friends to Immediately Get This Deal
+						</a>
+					{{else}}
+						<button class="redeem" onClick="Twitter.oAuthRequest()">
+							<span class="btn-title">Sign In To Twitter</span>
+						</button>
+					{{/if}}
+				{{/if}}
+
 				<p>Use: {{startTime}} - {{endTime}}</p>
-
-				<h4>Your friend got a better deal.  But you can too.</h4>
-				<p>Download JoinMe@ to earn your own awesome deals by sharing with your friends</p>
 			</script>
 		</div>
-
-		<!--<a href="https://twitter.com/intent/tweet?hashtags=JoinMeAt&url=&text=">Tweet</a>
-
-		<button onClick="Twitter.oAuthAccess()">Test oAuthAccess</button>-->
 
 		<div class="footer">
 			<img class="logo" src="assets/JMA-logo.png">
