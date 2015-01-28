@@ -5,17 +5,16 @@
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
    		<title>JoinMe@</title>
-		<link rel="stylesheet" href="styles/bootstrap-theme.min.css">
-		<link rel="stylesheet" href="styles/bootstrap.min.css">
-		<link rel="stylesheet" href="styles/mobile.css">
-		<link rel="stylesheet" href="styles/mobile-light.css">
+		<link rel="stylesheet" href="styles/normalize.css">
+   		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="styles/mobile.css" />
+   		<link rel="stylesheet" media="only screen and (min-width: 1024px)" href="styles/desktop.css" />
+   		<link rel="stylesheet" href="styles/mobile-light.css" />
 	</head>
 	<body>
 		<div class="top">
 			<script id="top" type="text/x-handlebars-template">
-				<div class="sub-text">A friend is at</div>
 				<div class="title-text-big">{{name}}</div>
-				<div class="sub-text">and sent you a deal:</div>
+				<div class="sub-text">has sent you a deal:</div>
 			</script>
 		</div>
 		<div class="main">
@@ -24,22 +23,37 @@
 					<img class="special" src={{image}}>
 					<p>{{specialTitle}}</p>
 				</div>
+				<p class="collapse-text">{{restrictions}}</p>
 
-				<p>This deal is ready to use - Tweet it to your friends to unlock and use!</p>
 
-				{{#if tweetSuccess}}
-					<h4>You've successfully Tweeted!  GOOD JORB HAM STRAY.</h4>
+				{{#if redeemSuccess}}
+					<h4>You've Redeeemed This Deal!</h4>
 				{{else}}
-					{{#if oauthSuccess}}
-						<a 	class="redeem" 
-							href="https://twitter.com/intent/tweet?hashtags=JoinMeAt&url=&text=" 
-							id="tweetIntent">
-							Tweet to {{unlockQuantity}} Friends to Immediately Get This Deal
-						</a>
-					{{else}}
-						<button class="redeem" onClick="Twitter.oAuthRequest()">
-							<span class="btn-title">Sign In To Twitter</span>
+					{{#if tweetSuccess}}
+						<button class="redeem" onClick="App.redeem()" disabled={{isWithinTimeFrame}}>
+							{{#if isWithinTimeFrame}}
+								<span class="btn-title">Click to Redeem Now!</span>
+							{{else}}
+								<span class="btn-title">You Can Redeem Within Time Frame</span>
+							{{/if}}
 						</button>
+					{{else}}
+						{{#if oauthSuccess}}
+							<div class="redeem">
+								<a 	class="link-redeem"
+									href="https://twitter.com/intent/tweet?hashtags=jmatest&url=&text="
+									id="tweetIntent">
+									<span class="btn-title">
+										Tweet to {{unlockQuantity}} Friends<br />
+										to Unlock!
+									</span>
+								</a>
+							</div>
+						{{else}}
+							<button class="redeem" onClick="Twitter.oAuthRequest()">
+								<span class="btn-title">Sign In To Twitter</span>
+							</button>
+						{{/if}}
 					{{/if}}
 				{{/if}}
 
@@ -52,11 +66,11 @@
 			<div class="about-text">JoinMe@ is a new kind of deal-sharing and loyalty app.<br>
 				To learn more about how it works, <a class="about-text-link" href="http://joinmeatapp.com">click here</a>.
 			</div>
-			<div class="unsub-text">
+			<!--<div class="unsub-text">
 				Don't want awesome deals from your friends? Suit yourself:
 				<a class="about-text-link" href="#">unsubscribe from our list</a>
 				and we'll make sure friends can't share deals with you in the future.
-			</div>
+			</div>-->
 		</div>
 	</body>
 
