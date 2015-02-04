@@ -25,7 +25,7 @@ twttr.ready(
 							image: App.constants.IMG_LOC + App.special.image,
 							startTime: start.format('MMM Do, h:mm a'),
 							endTime: end.format('MMM Do, h:mm a'),
-							isWithinTimeFrame: withinTimeFrame,
+							isWithinTimeFrame: !withinTimeFrame,
 							oauthSuccess: App.oauthSuccess,
 							tweetSuccess: App.tweetSuccess
 					    };
@@ -75,7 +75,9 @@ App = {
 						endTime: moment.utc(self.special.fStopTimeUTC).local().format('MMM Do, h:mm a'),
 						oauthSuccess: self.oauthSuccess,
 						tweetSuccess: self.tweetSuccess,
-						redeemSuccess: self.redeemSuccess
+						redeemSuccess: self.redeemSuccess,
+						tweetIntentHref: "https://twitter.com/intent/tweet?hashtags=jmatest&url=&text=&via=" 
+							+ data.twitterHandle
 					}
 					var topHtml = topTemplate({name: data.name});
 					var midHtml = midTemplate(pageData);

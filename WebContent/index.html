@@ -19,10 +19,11 @@
 		</div>
 		<div class="main">
 			<script id="main-body" type="text/x-handlebars-template">
+				<div class="title-text-small">{{specialTitle}}</div>
 				<div class="special-overlay">
 					<img class="special" src={{image}}>
-					<p>{{specialTitle}}</p>
 				</div>
+				<p>Tweet friends about {{name}} to immediately get an offer!</p>
 				<p class="collapse-text">{{restrictions}}</p>
 
 
@@ -34,14 +35,15 @@
 							{{#if isWithinTimeFrame}}
 								<span class="btn-title">Click to Redeem Now!</span>
 							{{else}}
-								<span class="btn-title">You Can Redeem Within Time Frame</span>
+								<span class="btn-title">You Can Only Redeem Within Time Frame</span>
 							{{/if}}
 						</button>
 					{{else}}
 						{{#if oauthSuccess}}
 							<div class="redeem">
 								<a 	class="link-redeem"
-									href="https://twitter.com/intent/tweet?hashtags=jmatest&url=&text="
+									href={{tweetIntentHref}}
+									<!--href="https://twitter.com/intent/tweet?hashtags=jmatest&url=&text="-->
 									id="tweetIntent">
 									<span class="btn-title">
 										Tweet to {{unlockQuantity}} Friends<br />

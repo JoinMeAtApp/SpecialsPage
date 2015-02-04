@@ -1,7 +1,7 @@
 Services = {
 	getSpecial: function(specialCode) {
 		return $.ajax({
-			url: App.constants.URL_GSON + 'Special/code/' + specialCode + '/2',
+			url: App.constants.URL_GSON + 'Special/code/' + specialCode + '/1',
 			//url: 'http://localhost:8080/JoinMeAt_v2/rs/Special/code/' + specialCode,
 			type: 'GET',
 			dataType: 'json',
