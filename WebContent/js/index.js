@@ -18,20 +18,44 @@ twttr.ready(
 		    				withinTimeFrame = true;
 		    			}
 
+		    			var friendsArr = new Array();
+		    			for (var i = 0; i < App.special.unlockQuantity; i ++) 
+		    				friendsArr[i] = '@';
 
 					    var pageData = {
+							hashtag: '#', 
+							friends: friendsArr,
+							merchHandle: 'M',
+					    	helperText: "You've Tweeted successfully!  Redeem your offer now!",
 					    	specialTitle: App.special.fDeal,
 							restrictions: App.special.fRestrictions,
 							image: App.constants.IMG_LOC + App.special.image,
 							startTime: start.format('MMM Do, h:mm a'),
 							endTime: end.format('MMM Do, h:mm a'),
-							isWithinTimeFrame: !withinTimeFrame,
+							isWithinTimeFrame: withinTimeFrame,
+							isDisabled: withinTimeFrame ? '' : 'disabled',
 							oauthSuccess: App.oauthSuccess,
 							tweetSuccess: App.tweetSuccess
 					    };
 
 					    var midHtml = midTemplate(pageData);
 					    $('.main').html(midHtml);
+					    $('.helperText').hide();
+
+					    var timer = 500;
+						$('.hashtag').addClass('animated bounceIn');
+						for (var i = 0; i < friendsArr.length; i ++) {
+							window.setTimeout(function() { $('.friend' + i).addClass('animated bounceIn'); }, timer);
+							timer += 500;
+						}
+						window.setTimeout(function() { $('.merchHandle').addClass('animated bounceIn'); }, timer);
+						timer += 500;
+
+						window.setTimeout(function() { $('.svgAnimations').addClass('animated fadeOut'); }, timer);
+						timer += 500;
+
+						window.setTimeout(function() { $('.helperText').show().addClass('animated fadeIn'); }, timer);
+
 		    		} else {
 		    			// Tell user they eff'd up.
 		    		}
@@ -67,7 +91,7 @@ App = {
 				if (data) {
 					App.merchant = data;
 					var pageData = {
-						specialTitle: self.special.fDeal,
+						helperText: 'Tweet to friends about ' + App.merchant.name + ' to immediately use this offer!',
 						restrictions: self.special.fRestrictions,
 						unlockQuantity: self.special.unlockQuantity,
 						image: self.constants.IMG_LOC + self.special.image,
@@ -76,10 +100,13 @@ App = {
 						oauthSuccess: self.oauthSuccess,
 						tweetSuccess: self.tweetSuccess,
 						redeemSuccess: self.redeemSuccess,
-						tweetIntentHref: "https://twitter.com/intent/tweet?hashtags=jmatest&url=&text=&via=" 
-							+ data.twitterHandle
+						// Must use "text" param here instead of "hashtags" to force proper ordering
+						tweetIntentHref: "https://twitter.com/intent/tweet?text=%23jmatest+%40" + data.twitterHandle
 					}
-					var topHtml = topTemplate({name: data.name});
+					var topHtml = topTemplate({
+						name: data.name,
+						specialTitle: self.special.fDeal
+					});
 					var midHtml = midTemplate(pageData);
 					$('.top').html(topHtml);
 					$('.main').html(midHtml);
@@ -88,6 +115,19 @@ App = {
 			function(error) {
 
 			});
+	},
+	logTweetClick: function() {
+		console.log('Twitter was was clicked');
+		var cookies = document.cookie.split(';');
+		var code = null;
+		for (var i = 0; i < cookies.length; i ++) {
+			if (cookies[i].indexOf('specialCode') !== -1) {
+				code = cookies[i].substring(12);
+				break;
+			}
+		}
+
+		Services.logWebAction(code, App.special.placeID, 1);
 	},
 	redeem: function() {
 		var  yesno = confirm("You are about to use " + App.special.fDeal + ".  Please show this to your server.");
@@ -106,9 +146,9 @@ App = {
 			Services.redeem(code).then(
 				function(data) {
 					if (data) {
-						console.log('successful redeem');
 						App.redeemSuccess = true;
 						var pageData = {
+							helperText: 'Enjoy your offer!',
 							specialTitle: self.special.fDeal,
 							restrictions: self.special.fRestrictions,
 							unlockQuantity: self.special.unlockQuantity,
@@ -119,9 +159,12 @@ App = {
 							tweetSuccess: self.tweetSuccess,
 							redeemSuccess: self.redeemSuccess
 						}
-						//var topHtml = topTemplate({name: data.name});
+						var topHtml = topTemplate({
+							name: App.merchant.name,
+							specialTitle: self.special.fDeal
+						});
 						var midHtml = midTemplate(pageData);
-						//$('.top').html(topHtml);
+						$('.top').html(topHtml);
 						$('.main').html(midHtml);
 					} else {
 						// do something to alert user to failure
@@ -183,7 +226,8 @@ $(document).ready(function() {
 		function(data) {
 			if (data) {
 				App.special = data;
-				App.getMerchant(data.placeID)
+				App.getMerchant(data.placeID);
+				Services.logPageView(code, data.placeID, 2);
 			}
 		},
 		function(error) {

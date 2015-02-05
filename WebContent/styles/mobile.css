@@ -12,6 +12,24 @@ body {
 	height: 100%;
 }
 
+.svgAnimations {
+	text-align: center;
+	margin: 10px 0 10px 0;
+	font-size: 1.5em;
+}
+
+.hashtag {
+	padding: 10px;
+}
+
+.friends {
+	padding: 10px;
+}
+
+.merchHandle {
+	padding: 10px;
+}
+
 /* Button Styles */
 .redeem {
 	width: 100%;

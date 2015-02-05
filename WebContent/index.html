@@ -6,6 +6,7 @@
    		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
    		<title>JoinMe@</title>
 		<link rel="stylesheet" href="styles/normalize.css">
+		<link rel="stylesheet" href="styles/animate.css">
    		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="styles/mobile.css" />
    		<link rel="stylesheet" media="only screen and (min-width: 1024px)" href="styles/desktop.css" />
    		<link rel="stylesheet" href="styles/mobile-light.css" />
@@ -13,17 +14,17 @@
 	<body>
 		<div class="top">
 			<script id="top" type="text/x-handlebars-template">
-				<div class="title-text-big">{{name}}</div>
-				<div class="sub-text">has sent you a deal:</div>
+				<div class="title-text-small">{{name}}</div>
+				<div class="sub-text">has offered you a deal:</div>
+				<div class="title-text-big">{{specialTitle}}</div>
 			</script>
 		</div>
 		<div class="main">
 			<script id="main-body" type="text/x-handlebars-template">
-				<div class="title-text-small">{{specialTitle}}</div>
 				<div class="special-overlay">
 					<img class="special" src={{image}}>
 				</div>
-				<p>Tweet friends about {{name}} to immediately get an offer!</p>
+				<p class="helperText">{{helperText}}</p>
 				<p class="collapse-text">{{restrictions}}</p>
 
 
@@ -31,21 +32,28 @@
 					<h4>You've Redeeemed This Deal!</h4>
 				{{else}}
 					{{#if tweetSuccess}}
-						<button class="redeem" onClick="App.redeem()" disabled={{isWithinTimeFrame}}>
-							{{#if isWithinTimeFrame}}
-								<span class="btn-title">Click to Redeem Now!</span>
+						<div class="svgAnimations">
+							<span class="hashtag">{{hashtag}}</span>
+							{{#each friends}}
+								<span class="friends friend{{@index}}">{{this}}</span>
+							{{/each}}
+							<span class="merchHandle">{{merchHandle}}</span>
+						</div>
+						<button class="redeem" onClick="App.redeem()" {{isDisabled}}>
+							{{#unless isWithinTimeFrame}}
+								<span class="btn-title animated flipInX">You Can Only Redeem Within Time Frame</span>
 							{{else}}
-								<span class="btn-title">You Can Only Redeem Within Time Frame</span>
-							{{/if}}
+								<span class="btn-title animated flipInX">Click to Redeem Now!</span>
+							{{/unless}}
 						</button>
 					{{else}}
 						{{#if oauthSuccess}}
 							<div class="redeem">
-								<a 	class="link-redeem"
+								<a 	onClick="App.logTweetClick()"
+									class="link-redeem"
 									href={{tweetIntentHref}}
-									<!--href="https://twitter.com/intent/tweet?hashtags=jmatest&url=&text="-->
 									id="tweetIntent">
-									<span class="btn-title">
+									<span class="btn-title animated flipInX">
 										Tweet to {{unlockQuantity}} Friends<br />
 										to Unlock!
 									</span>
@@ -53,7 +61,7 @@
 							</div>
 						{{else}}
 							<button class="redeem" onClick="Twitter.oAuthRequest()">
-								<span class="btn-title">Sign In To Twitter</span>
+								<span class="btn-title animated flipInX">Sign In To Twitter</span>
 							</button>
 						{{/if}}
 					{{/if}}

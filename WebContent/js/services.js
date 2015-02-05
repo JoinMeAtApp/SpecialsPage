@@ -49,6 +49,40 @@ Services = {
 			error: function(error) {
 				return false;
 			}
+		});
+	},
+	logPageView: function(code, _placeID, _type) {
+		$.ajax({
+			url: App.constants.URL_GSON + 'Stats/log/pageview',
+			type: 'POST',
+			dataType: 'text',
+			data: { specialCode: code, placeID: _placeID, type: _type },
+			success: function(data) {
+				if (!data.isJMAException)
+					return data;
+				else
+					return false;
+			},
+			error: function(error) {
+				return false;
+			}
+		})
+	},
+	logWebAction: function(code, _placeID, _action) {
+		$.ajax({
+			url: App.constants.URL_GSON + 'Stats/web/action',
+			type: 'POST',
+			dataType: 'text',
+			data: { specialCode: code, placeID: _placeID, type: _type },
+			success: function(data) {
+				if (!data.isJMAException)
+					return data;
+				else
+					return false;
+			},
+			error: function(error) {
+				return false;
+			}
 		})
 	}
 
