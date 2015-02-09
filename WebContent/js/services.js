@@ -55,7 +55,7 @@ Services = {
 		$.ajax({
 			url: App.constants.URL_GSON + 'Stats/log/pageview',
 			type: 'POST',
-			dataType: 'text',
+			dataType: 'json',
 			data: { specialCode: code, placeID: _placeID, type: _type },
 			success: function(data) {
 				if (!data.isJMAException)
@@ -70,10 +70,10 @@ Services = {
 	},
 	logWebAction: function(code, _placeID, _action) {
 		$.ajax({
-			url: App.constants.URL_GSON + 'Stats/web/action',
+			url: App.constants.URL_GSON + 'Stats/log/page/action',
 			type: 'POST',
-			dataType: 'text',
-			data: { specialCode: code, placeID: _placeID, type: _type },
+			dataType: 'json',
+			data: { specialCode: code, placeID: _placeID, action: _action },
 			success: function(data) {
 				if (!data.isJMAException)
 					return data;

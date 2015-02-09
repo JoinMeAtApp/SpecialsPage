@@ -27,42 +27,37 @@
 				<p class="helperText">{{helperText}}</p>
 				<p class="collapse-text">{{restrictions}}</p>
 
-
-				{{#if redeemSuccess}}
-					<h4>You've Redeeemed This Deal!</h4>
+				{{#if isLoginPage}}
+					<button class="redeem" onClick="Twitter.oAuthRequest()">
+						<span class="btn-title animated flipInX">Sign In To Twitter</span>
+					</button>
 				{{else}}
-					{{#if tweetSuccess}}
-						<div class="svgAnimations">
-							<span class="hashtag">{{hashtag}}</span>
-							{{#each friends}}
-								<span class="friends friend{{@index}}">{{this}}</span>
-							{{/each}}
-							<span class="merchHandle">{{merchHandle}}</span>
-						</div>
-						<button class="redeem" onClick="App.redeem()" {{isDisabled}}>
-							{{#unless isWithinTimeFrame}}
-								<span class="btn-title animated flipInX">You Can Only Redeem Within Time Frame</span>
-							{{else}}
-								<span class="btn-title animated flipInX">Click to Redeem Now!</span>
-							{{/unless}}
+					{{#if isTweetPage}}
+						<textarea rows="4" cols="30" maxlength="140">{{tweetStatus}}</textarea>
+						<button class="redeem" onClick="App.updateStatus()">
+							<span class="btn-title animated flipInX">
+								Tweet to {{unlockQuantity}} Friends<br />
+								to Unlock!
+							</span>
 						</button>
 					{{else}}
-						{{#if oauthSuccess}}
-							<div class="redeem">
-								<a 	onClick="App.logTweetClick()"
-									class="link-redeem"
-									href={{tweetIntentHref}}
-									id="tweetIntent">
-									<span class="btn-title animated flipInX">
-										Tweet to {{unlockQuantity}} Friends<br />
-										to Unlock!
-									</span>
-								</a>
+						{{#if isRedeemPage}}
+							<div class="svgAnimations">
+								<span class="hashtag">{{hashtag}}</span>
+								{{#each friends}}
+									<span class="friends" id="friend{{@index}}">@Friend{{@index}}</span>
+								{{/each}}
+								<span class="merchHandle">{{merchHandle}}</span>
 							</div>
-						{{else}}
-							<button class="redeem" onClick="Twitter.oAuthRequest()">
-								<span class="btn-title animated flipInX">Sign In To Twitter</span>
+							<button class="redeem" onClick="App.redeem()" {{isDisabled}}>
+								{{#unless isWithinTimeFrame}}
+									<span class="btn-title animated flipInX">You Can Only Redeem Within Time Frame</span>
+								{{else}}
+									<span class="btn-title animated flipInX">Click to Redeem Now!</span>
+								{{/unless}}
 							</button>
+						{{else}}
+							<h4>You've Redeeemed This Deal!</h4>
 						{{/if}}
 					{{/if}}
 				{{/if}}
@@ -93,8 +88,9 @@
 	<script src="js/lib/handlebars-v2.0.0.js"></script>
 	<script src="js/lib/moment.min.js"></script>
 	<script src="js/lib/oauth-1.0a.js"></script>
-
+	
 	<script src="js/index.js"></script>
+	<script src="js/util.js"></script>
 	<script src="js/services.js"></script>
 	<script src="js/twitter.js"></script>
 </html>

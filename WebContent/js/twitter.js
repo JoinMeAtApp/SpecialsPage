@@ -46,13 +46,32 @@ Twitter = {
 			}
 		});
 	},
-	statusUpdate: function(token, secret) {
+	statusUpdate: function(_status) {
+		var cookies = document.cookie.split(';');
+		var oauthToken, oauthSecret, verifier;
 
-		$.ajax({
+		// Get the token & secret, the remove both cookies
+		for (var i = 0; i < cookies.length; i ++) {
+			if (cookies[i].indexOf('tokenSecret') !== -1) {
+				oauthSecret = cookies[i].substring(13);
+			} else if (cookies[i].indexOf('token') !== -1) {
+				oauthToken = cookies[i].substring(7);
+			} else if (cookies[i].indexOf('verifier') !== -1) {
+				verifier = cookies[i].substring(10);
+
+			}
+		}
+		return $.ajax({
 			url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/statusUpdate',
 			type: 'POST',
 			dataType: 'json',
-			data: { twitterToken: token, twitterSecret: secret },
+			data: { 
+				twitterToken: oauthToken, 
+				twitterSecret: oauthSecret, 
+				verifier: verifier, 
+				senderID: App.User.id,
+				merchantID: App.merchant.merchantID,
+				status: _status },
 			success: function(status) {
 				console.log(status);
 			},
