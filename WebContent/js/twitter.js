@@ -1,7 +1,7 @@
 Twitter = {
 	oAuthRequest: function() {
 
-		$.ajax({
+		return $.ajax({
 			url: App.constants.URL_GSON + 'Twitter/oauth',
 			//url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/oauth',
 			type: 'POST',
@@ -62,7 +62,8 @@ Twitter = {
 			}
 		}
 		return $.ajax({
-			url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/statusUpdate',
+			url: App.constants.URL_GSON + 'Twitter/statusUpdate',
+			//url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/statusUpdate',
 			type: 'POST',
 			dataType: 'json',
 			data: { 

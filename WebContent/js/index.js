@@ -1,79 +1,3 @@
-/*twttr.ready(
-	function (twttr) {
-		twttr.events.bind(
-		'tweet',
-		function (event) {
-			console.log('tweet occurred');
-		    Twitter.confirmTweet().then(
-		    	function(data) {
-		    		if (data) {
-		    			App.tweetSuccess = true;
-
-						var withinTimeFrame = false;
-		    			var now = moment();
-		    			var start = moment.utc(App.special.fStartTimeUTC).local();
-		    			var end = moment.utc(App.special.fStopTimeUTC).local();
-
-		    			if (now.isBetween(start, end)) {
-		    				withinTimeFrame = true;
-		    			}
-
-		    			var friendsArr = new Array();
-		    			for (var i = 0; i < App.special.unlockQuantity; i ++) 
-		    				friendsArr[i] = '@';
-
-					    var pageData = {
-							hashtag: '#JoinMeAt', 
-							friends: friendsArr,
-							merchHandle: '@' + App.merchant.twitterHandle,
-					    	helperText: "You've Tweeted successfully!  Redeem your offer now!",
-					    	specialTitle: App.special.fDeal,
-							restrictions: App.special.fRestrictions,
-							image: App.constants.IMG_LOC + App.special.image,
-							startTime: start.format('MMM Do, h:mm a'),
-							endTime: end.format('MMM Do, h:mm a'),
-							isWithinTimeFrame: withinTimeFrame,
-							isDisabled: withinTimeFrame ? '' : 'disabled',
-							oauthSuccess: App.oauthSuccess,
-							tweetSuccess: App.tweetSuccess
-					    };
-
-					    var midHtml = midTemplate(pageData);
-					    $('.main').html(midHtml);
-					    $('.helperText').hide();
-
-					    var timer = 500;
-						$('.hashtag').addClass('animated bounceIn');
-						for (var i = 0; i < friendsArr.length; i ++) {
-							var $friend = $('#friend' + i);
-							window.setTimeout(function() { $friend.addClass('animated bounceIn'); }, timer);
-							timer += 500;
-						}
-						window.setTimeout(function() { $('.merchHandle').addClass('animated bounceIn'); }, timer);
-						timer += 500;
-
-						window.setTimeout(function() { $('.svgAnimations').addClass('animated fadeOut'); }, timer);
-						timer += 700;
-
-						window.setTimeout(function() {
-							$('.svgAnimations')
-							.html("<p>You've Tweeted successfully!  Redeem your offer now!</p>")
-							.removeClass('fadeOut')
-							.addClass('animated fadeIn');
-						}, timer);
-
-		    		} else {
-		    			// Tell user they eff'd up.
-		    		}
-		    	},
-		    	function(error) {
-
-		    	}
-		    );
-		});
-	}
-);*/
-
 $(document).ready(function() {
 	var url = window.location.search.substring(1);
 	var vars = url.split("=");
@@ -85,7 +9,6 @@ $(document).ready(function() {
 	midTemplate = Handlebars.compile(midSource);
 
 	// If the user hasn't successfully authorized our app...
-
 	if (code.indexOf('success') === -1) {
 		// 1. Save the special code into a cookie for page reload
 		document.cookie = "specialCode=" + code;
@@ -153,12 +76,13 @@ App = {
 	isTweetPage: false,
 	isRedeemPage: false,
 	isFinishPage: false,
+	oAuthRequest: function() {
+		var spinner = Ladda.create(document.querySelector('button'));
+		spinner.start();
 
-	/*oauthSuccess: false,
-	tweetSuccess: false,
-	redeemSuccess: false,
-	oauth_verifier: null,
-	oauth_token: null,*/
+		Twitter.oAuthRequest();
+		// Stopping the spinner here is unnecessary b/c we do a Twitter redirect
+	},
 	getMerchant: function(merchantID, textCode) {
 		var self = this;
 		Services.getMerchant(merchantID).then(
@@ -177,7 +101,8 @@ App = {
 
 					var _helperText = 'Tweet to friends about ' + App.merchant.name + ' to immediately use this offer!';
 					if (textCode === 2)
-						_helperText = 'Make sure you include the phrase "#JoinMeAt @' + App.merchant.twitterHandle + '"!';
+						_helperText = 'Make sure you include the phrase "#JoinMeAt @' + App.merchant.twitterHandle + '"'
+							+ '\n and Tweet at ' + self.special.unlockQuantity + ' friends!';
 					else if (isRedeemed) {
 						self.redeemSuccess = true;
 						_helperText = '';
@@ -195,12 +120,6 @@ App = {
 						isTweetPage: App.isTweetPage,
 						isRedeemPage: false,
 						isFinishPage: false,
-
-						/*oauthSuccess: self.oauthSuccess,
-						tweetSuccess: self.tweetSuccess,
-						redeemSuccess: self.redeemSuccess,*/
-						// Must use "text" param here instead of "hashtags" to force proper ordering
-						//tweetIntentHref: "https://twitter.com/intent/tweet?text=%23jmatest+%40" + data.twitterHandle
 					}
 					var topHtml = topTemplate({
 						name: data.name,
@@ -209,6 +128,9 @@ App = {
 					var midHtml = midTemplate(pageData);
 					$('.top').html(topHtml);
 					$('.main').html(midHtml);
+
+					if ($('textarea').length > 0)
+						Util.charCounter();
 				} 
 			},
 			function(error) {
@@ -218,6 +140,9 @@ App = {
 	updateStatus: function() {
 		// Log the Tweet button click
 		Util.logTweetClick();
+
+		var spinner = Ladda.create(document.querySelector('button'));
+		spinner.start();
 
 		Util.validateTweet($('textarea').val()).then(
 			function() {
@@ -312,7 +237,6 @@ App = {
 							helperText: 'Enjoy your offer!',
 							specialTitle: self.special.fDeal,
 							restrictions: self.special.fRestrictions,
-							//unlockQuantity: self.special.unlockQuantity,
 							image: self.constants.IMG_LOC + self.special.image,
 							startTime: moment.utc(self.special.fStartTimeUTC).local().format('MMM Do, h:mm a'),
 							endTime: moment.utc(self.special.fStopTimeUTC).local().format('MMM Do, h:mm a'),

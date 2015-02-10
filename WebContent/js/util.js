@@ -29,5 +29,10 @@ Util = {
 
 
 		return deferred.promise();
+	},
+	charCounter: function() {
+		var charCount = $('textarea').val().length;
+
+		$('#twitterCounter').html(charCount + '/140');
 	}
 }

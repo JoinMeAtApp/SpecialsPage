@@ -28,14 +28,17 @@
 				<p class="collapse-text">{{restrictions}}</p>
 
 				{{#if isLoginPage}}
-					<button class="redeem" onClick="Twitter.oAuthRequest()">
-						<span class="btn-title animated flipInX">Sign In To Twitter</span>
+					<button class="redeem ladda-button" data-style="zoom-in" onClick="App.oAuthRequest()">
+						<span class="ladda-label btn-title animated flipInX">
+							Tweet to {{unlockQuantity}} Friends<br /> to Unlock!
+						</span>
 					</button>
 				{{else}}
 					{{#if isTweetPage}}
-						<textarea rows="4" cols="30" maxlength="140">{{tweetStatus}}</textarea>
-						<button class="redeem" onClick="App.updateStatus()">
-							<span class="btn-title animated flipInX">
+						<textarea maxlength="140" rows="4" onkeydown="Util.charCounter()">{{tweetStatus}}</textarea>
+						<p id="twitterCounter">0/140</p>
+						<button class="redeem ladda-button" data-style="zoom-in" onClick="App.updateStatus()">
+							<span class="ladda-label btn-title animated flipInX">
 								Tweet to {{unlockQuantity}} Friends<br />
 								to Unlock!
 							</span>
@@ -49,11 +52,11 @@
 								{{/each}}
 								<span class="merchHandle">{{merchHandle}}</span>
 							</div>
-							<button class="redeem" onClick="App.redeem()" {{isDisabled}}>
+							<button class="redeem ladda-button" data-style="zoom-in" onClick="App.redeem()" {{isDisabled}}>
 								{{#unless isWithinTimeFrame}}
 									<span class="btn-title animated flipInX">You Can Only Redeem Within Time Frame</span>
 								{{else}}
-									<span class="btn-title animated flipInX">Click to Redeem Now!</span>
+									<span class="ladda-label btn-title animated flipInX">Click to Redeem Now!</span>
 								{{/unless}}
 							</button>
 						{{else}}
@@ -79,6 +82,9 @@
 		</div>
 	</body>
 
+	
+	<link rel="stylesheet" href="styles/ladda-themeless.min.css" />
+
 	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha1.js"></script>
 	<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
@@ -88,6 +94,8 @@
 	<script src="js/lib/handlebars-v2.0.0.js"></script>
 	<script src="js/lib/moment.min.js"></script>
 	<script src="js/lib/oauth-1.0a.js"></script>
+	<script src="js/lib/spin.min.js"></script>
+	<script src="js/lib/ladda.js"></script>
 	
 	<script src="js/index.js"></script>
 	<script src="js/util.js"></script>

@@ -12,6 +12,22 @@ body {
 	height: 100%;
 }
 
+textarea {
+	resize: none;
+	width: 90%;
+	height: 25%;
+}
+
+#twitterCounter {
+	width: 90%;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-top: 0;
+	text-align: right;
+	font-size: .9em;
+	color: grey;
+}
+
 .svgAnimations {
 	text-align: center;
 	margin: 10px 0 10px 0;
