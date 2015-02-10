@@ -10,9 +10,11 @@ Twitter = {
 				document.cookie = "token=" + data.token;
 				document.cookie = "tokenSecret=" + data.tokenSecret;
 				window.location = data.authURL;
+				return true;
 			},
 			error: function(error) {
 				console.log('total failure, noob');
+				return false;
 			}
 		});
 	},

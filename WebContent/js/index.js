@@ -80,8 +80,11 @@ App = {
 		var spinner = Ladda.create(document.querySelector('button'));
 		spinner.start();
 
-		Twitter.oAuthRequest();
-		// Stopping the spinner here is unnecessary b/c we do a Twitter redirect
+		Twitter.oAuthRequest().then(
+			function() {},
+			function(error) {
+				alert('There was a problem logging you in to Twitter.  Please try again!');
+		}).always(function() { spinner.stop(); });
 	},
 	getMerchant: function(merchantID, textCode) {
 		var self = this;
@@ -213,7 +216,8 @@ App = {
 						}
 					}, function(error) { /* do nothing */  });
 			},
-			function(error) { alert(error);  });
+			function(error) { alert(error);  })
+			.always(function() { spinner.stop(); });
 	},
 	redeem: function() {
 		var  yesno = confirm("You are about to use " + App.special.fDeal + ".  Please show this to your server.");
