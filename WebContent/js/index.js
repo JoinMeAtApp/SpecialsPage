@@ -107,7 +107,7 @@ App = {
 						_helperText = 'Make sure you include the phrase "#JoinMeAt @' + App.merchant.twitterHandle + '"'
 							+ '\n and Tweet at ' + self.special.unlockQuantity + ' friends!';
 					else if (isRedeemed) {
-						self.redeemSuccess = true;
+						App.isLoginPage = false;
 						_helperText = '';
 					}
 
@@ -122,7 +122,7 @@ App = {
 						isLoginPage: App.isLoginPage,
 						isTweetPage: App.isTweetPage,
 						isRedeemPage: false,
-						isFinishPage: false,
+						isFinishPage: isRedeemed,
 					}
 					var topHtml = topTemplate({
 						name: data.name,
