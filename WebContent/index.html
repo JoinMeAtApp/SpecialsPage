@@ -33,6 +33,7 @@
 							Tweet to {{unlockQuantity}} Friends<br /> to Unlock!
 						</span>
 					</button>
+
 				{{else}}
 					{{#if isTweetPage}}
 						<textarea maxlength="140" rows="4" onkeydown="Util.charCounter()">{{tweetStatus}}</textarea>
@@ -43,6 +44,7 @@
 								to Unlock!
 							</span>
 						</button>
+					<button class="redeem" onClick="Twitter.getFriends()">Test getFriends</button>
 					{{else}}
 						{{#if isRedeemPage}}
 							<div class="svgAnimations">
