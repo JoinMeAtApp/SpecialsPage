@@ -18,6 +18,61 @@ textarea {
 	height: 25%;
 }
 
+.counter-div-empty {
+	display: inline-block;
+	margin: 5px;
+	padding: 5px;
+	background-color: #148AB8;
+	text-align: center;
+	align: center;
+	color: white;
+	width: 25%;
+}
+
+.counter-div-full {
+	display: inline-block;
+	margin: 5px;
+	padding: 5px;
+	background-color: red;
+	text-align: center;
+	align: center;
+	color: white;
+	width: 25%;
+}
+
+/* jQuery UI Autocomplete Tweaks */
+.ui-menu-item {
+	background: grey;
+	text-align: left;
+	font-weight: bold;
+}
+/* end jQuery UI Tweaks */
+
+.handleDiv {
+	background: grey;
+	color: white;
+	font-weight: bold;
+	margin: 3px;
+	padding: 5px;
+	width: 30%;
+	display: inline-block;
+}
+
+#txtHandles {
+	padding: 5px;
+	margin: 5px 10px 5px 10px;
+	text-align: left;
+	border-width: 1px;
+	border-style: solid;
+	border-color: grey;
+}
+
+#jmaTweetInfo {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-top: 0;
+}
+
 #twitterCounter {
 	width: 90%;
 	margin-top: 0;
@@ -26,6 +81,10 @@ textarea {
 	text-align: right;
 	font-size: .9em;
 	color: grey;
+}
+
+.helperText {
+	margin-bottom: 0px;
 }
 
 .svgAnimations {

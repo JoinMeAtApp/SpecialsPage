@@ -1,3 +1,10 @@
+Handlebars.registerHelper('times', function(n, block) {
+    var accum = '';
+    for(var i = 1; i <= n; ++i)
+        accum += block.fn(i);
+    return accum;
+});
+
 Util = {
 	logTweetClick: function() {
 		var cookies = document.cookie.split(';');
@@ -57,8 +64,26 @@ Util = {
 		return deferred.promise();
 	},
 	charCounter: function() {
-		var charCount = $('textarea').val().length;
+		var charCount = $('#txtMessage').val().length;
+		charCount += 10 + App.merchant.twitterHandle.length;	// 10 == #JoinMeAt + a space
 
 		$('#twitterCounter').html(charCount + '/140');
+	},
+	placeCaretAtEnd: function (el) {
+	    el.focus();
+	    if (typeof window.getSelection != "undefined"
+	            && typeof document.createRange != "undefined") {
+	        var range = document.createRange();
+	        range.selectNodeContents(el);
+	        range.collapse(false);
+	        var sel = window.getSelection();
+	        sel.removeAllRanges();
+	        sel.addRange(range);
+	    } else if (typeof document.body.createTextRange != "undefined") {
+	        var textRange = document.body.createTextRange();
+	        textRange.moveToElementText(el);
+	        textRange.collapse(false);
+	        textRange.select();
+	    }
 	}
 }

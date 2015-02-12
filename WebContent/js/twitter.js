@@ -72,11 +72,10 @@ Twitter = {
 		});
 	},
 	getFriends: function(_query) {
+		var deferred = $.Deferred();
 
 		Util.getCookies().then(
 			function(cookies) {
-				//_query = '	tuft';
-				_query = '';
 
 				return $.ajax({
 					//url: App.constants.URL_GSON + 'Twitter/confirm',
@@ -90,37 +89,18 @@ Twitter = {
 						query: _query,
 					},
 					success: function(data) {
-						console.log('confirmTweet: ' + data);
-						if (data > 0)
-							return true
+						if (!data.isJMAException && data.length > 0)
+							deferred.resolve(data);
 						else 
-							return false;
+							deferred.reject();
 					},
 					error: function(error) {
-						return false;
+						deferred.reject();
 					}
 				});
 			},
 			function(error) { /* do nothing */ });
-	}
-	/*confirmTweet: function() {
 
-		return $.ajax({
-			url: App.constants.URL_GSON + 'Twitter/confirm',
-			//url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/confirm',
-			type: 'POST',
-			dataType: 'json',
-			data: { senderID: App.User.id, merchantID: App.merchant.merchantID },
-			success: function(data) {
-				console.log('confirmTweet: ' + data);
-				if (data > 0)
-					return true
-				else 
-					return false;
-			},
-			error: function(error) {
-				return false;
-			}
-		});
-	}*/
+		return deferred.promise();
+	}
 }

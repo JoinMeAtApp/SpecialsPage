@@ -7,6 +7,8 @@
    		<title>JoinMe@</title>
 		<link rel="stylesheet" href="styles/normalize.css">
 		<link rel="stylesheet" href="styles/animate.css">
+		<link rel="stylesheet" href="styles/jquery-ui.min.css">
+		<link rel="stylesheet" href="styles/jquery-ui.structure.min.css">
    		<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="styles/mobile.css" />
    		<link rel="stylesheet" media="only screen and (min-width: 1024px)" href="styles/desktop.css" />
    		<link rel="stylesheet" href="styles/mobile-light.css" />
@@ -36,7 +38,15 @@
 
 				{{else}}
 					{{#if isTweetPage}}
-						<textarea maxlength="140" rows="4" onkeydown="Util.charCounter()">{{tweetStatus}}</textarea>
+						{{#times unlockQuantity}}
+							<div class="counter-div-empty">{{this}}</div>
+						{{/times}}
+					
+						<div contenteditable="true" 
+							id="txtHandles" 
+							rows="1"></div>
+						<p id="jmaTweetInfo">#JoinMeAt {{merchHandle}}</p>
+						<textarea id="txtMessage" maxlength="140" rows="4" placeholder="Enter message here" onkeydown="Util.charCounter()"></textarea>
 						<p id="twitterCounter">0/140</p>
 						<button class="redeem ladda-button" data-style="zoom-in" onClick="App.updateStatus()">
 							<span class="ladda-label btn-title animated flipInX">
@@ -44,14 +54,14 @@
 								to Unlock!
 							</span>
 						</button>
-					<button class="redeem" onClick="Twitter.getFriends()">Test getFriends</button>
 					{{else}}
 						{{#if isRedeemPage}}
 							<div class="svgAnimations">
 								<span class="hashtag">{{hashtag}}</span>
-								{{#each friends}}
-									<span class="friends" id="friend{{@index}}">@Friend{{@index}}</span>
-								{{/each}}
+								{{#times unlockQuantity}}
+									<span class="friends" id="friend{{this}}">@Friend{{this}}</span>
+									<!--<span class="friends" id="friend{{@index}}">@Friend{{@index}}</span>-->
+								{{/times}}
 								<span class="merchHandle">{{merchHandle}}</span>
 							</div>
 							<button class="redeem ladda-button" data-style="zoom-in" onClick="App.redeem()" {{isDisabled}}>
@@ -92,6 +102,7 @@
 	<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
 	<!--<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>-->
 
+	<script src="js/lib/jquery-ui.min.js"></script>
 	<script src="js/lib/bootstrap.min.js"></script>
 	<script src="js/lib/handlebars-v2.0.0.js"></script>
 	<script src="js/lib/moment.min.js"></script>

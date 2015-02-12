@@ -104,8 +104,7 @@ App = {
 
 					var _helperText = 'Tweet to friends about ' + App.merchant.name + ' to immediately use this offer!';
 					if (textCode === 2)
-						_helperText = 'Make sure you include the phrase "#JoinMeAt @' + App.merchant.twitterHandle + '"'
-							+ '\n and Tweet at ' + self.special.unlockQuantity + ' friends!';
+						_helperText = 'Share this offer with ' + self.special.unlockQuantity + ' friend(s) to unlock!';
 					else if (isRedeemed) {
 						App.isLoginPage = false;
 						_helperText = '';
@@ -113,7 +112,7 @@ App = {
 
 					var pageData = {
 						helperText: _helperText,
-					    tweetStatus: "#jmatest @" + App.merchant.twitterHandle,
+					    merchHandle: '@' + App.merchant.twitterHandle,
 						restrictions: self.special.fRestrictions,
 						unlockQuantity: self.special.unlockQuantity,
 						image: self.constants.IMG_LOC + self.special.image,
@@ -132,13 +131,38 @@ App = {
 					$('.top').html(topHtml);
 					$('.main').html(midHtml);
 
-					if ($('textarea').length > 0)
+					if ($('#txtMessage').length > 0)
 						Util.charCounter();
+
+					$('#txtHandles').autocomplete({
+						minlength: 4,
+						delay: 300,
+						source: function(request, response) {
+							var newQuery = request.term;
+							if (newQuery.indexOf(App.curLabel) === 0)
+								newQuery = newQuery.substring(App.curLabel.length);
+
+							Twitter.getFriends(newQuery).then(
+								function(friends) {
+									response(friends);
+								}, function() { 
+									response(['No Matches Found']);
+								});
+						},
+						select: function (event, ui) {
+							$('#txtHandles').append(
+								'<div class="handleDiv" handle="' + ui.item.value + '" contenteditable="false">' 
+								+ ui.item.label 
+								+ '</div>');
+
+							App.curLabel = ui.item.label;
+							Util.placeCaretAtEnd(document.getElementById('txtHandles'));
+							return false;
+						}
+					});
 				} 
 			},
-			function(error) {
-
-			});
+			function(error) { /* do nothing */ });
 	},
 	updateStatus: function() {
 		// Log the Tweet button click
@@ -165,13 +189,13 @@ App = {
 			    				withinTimeFrame = true;
 			    			}
 
-			    			var friendsArr = new Array();
+			    			/*var friendsArr = new Array();
 			    			for (var i = 0; i < App.special.unlockQuantity; i ++) 
-			    				friendsArr[i] = '@';
+			    				friendsArr[i] = '@';*/
 
 						    var pageData = {
 								hashtag: '#JoinMeAt', 
-								friends: friendsArr,
+								//friends: friendsArr,
 								merchHandle: '@' + App.merchant.twitterHandle,
 						    	helperText: "You've Tweeted successfully!  Redeem your offer now!",
 						    	specialTitle: App.special.fDeal,
