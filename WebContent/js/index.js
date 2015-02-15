@@ -5,8 +5,10 @@ $(document).ready(function() {
 
 	var topSource = $('#top').html();
 	var midSource = $('#main-body').html();
+	var snSource = $('#selectedNames-body').html();
 	topTemplate = Handlebars.compile(topSource);
 	midTemplate = Handlebars.compile(midSource);
+	snTemplate = Handlebars.compile(snSource);
 
 	// If the user hasn't successfully authorized our app...
 	if (code.indexOf('success') === -1) {
@@ -29,6 +31,7 @@ $(document).ready(function() {
 	} else {	// Else...
 		App.isLoginPage = false;
 		App.isTweetPage = true;
+		App.selectedNames = new Array();
 		App.isRedeemPage = false;
 		App.isFinishPage = false;
 
@@ -75,6 +78,7 @@ App = {
 	isLoginPage: true,
 	isTweetPage: false,
 	isRedeemPage: false,
+	selectedNames: new Array(),
 	isFinishPage: false,
 	oAuthRequest: function() {
 		var spinner = Ladda.create(document.querySelector('button'));
@@ -120,6 +124,7 @@ App = {
 						endTime: moment.utc(self.special.fStopTimeUTC).local().format('MMM Do, h:mm a'),
 						isLoginPage: App.isLoginPage,
 						isTweetPage: App.isTweetPage,
+						selectedNames: App.selectedNames,
 						isRedeemPage: false,
 						isFinishPage: isRedeemed,
 					}
@@ -128,8 +133,12 @@ App = {
 						specialTitle: self.special.fDeal
 					});
 					var midHtml = midTemplate(pageData);
+					var snHtml = snTemplate({
+						selectedNames: App.selectedNames
+					});
 					$('.top').html(topHtml);
 					$('.main').html(midHtml);
+					$('.selectedNames').html(snHtml);
 
 					if ($('#txtMessage').length > 0)
 						Util.charCounter();
@@ -150,11 +159,31 @@ App = {
 								});
 						},
 						select: function (event, ui) {
-							$('#txtHandles').append(
-								'<div class="handleDiv" handle="' + ui.item.value + '" contenteditable="false">' 
-								+ ui.item.label 
-								+ '</div>');
+							//$('#txtHandles').append(
+							//	'<div class="handleDiv" handle="' + ui.item.value + '" contenteditable="false">' 
+							//	+ ui.item.label 
+							//	+ '</div>');
+							
+							if (App.selectedNames == null)
+								App.selectedNames = new Array();
+							var twitterHandleAndName = new Object();
+							twitterHandleAndName.Handle = ui.item.value;
+							twitterHandleAndName.Name = ui.item.label;
+							var containsName = false;
+							for (var i=App.selectedNames.length-1;i>=0;i--) {
+								if (App.selectedNames[i].Handle == twitterHandleAndName.Handle) {
+									containsName = true;
+									break;
+								}
+							}
+							if (!containsName)
+								App.selectedNames.push(twitterHandleAndName);
+							var snHtml = snTemplate({
+								selectedNames: App.selectedNames
+							});
+							$('.selectedNames').html(snHtml);
 
+							App.updateFinal();
 							App.curLabel = ui.item.label;
 							Util.placeCaretAtEnd(document.getElementById('txtHandles'));
 							return false;
@@ -291,5 +320,32 @@ App = {
 
 				});
 		}
+	},
+	removeName: function(handle) {
+		if (App.selectedNames == null)
+			return;
+		
+		for (var i=App.selectedNames.length-1;i>=0;i--) {
+			if (App.selectedNames[i].Handle == handle) {
+				App.selectedNames.splice(i,1);
+				break;
+			}
+		}
+		
+		var snHtml = snTemplate({
+			selectedNames: App.selectedNames
+		});
+		$('.selectedNames').html(snHtml);
+		
+		App.updateFinal();
+	},
+	updateFinal: function() {
+		var finalMessage = "#JoinMeAt @" + App.merchant.twitterHandle ;
+		for (var i=0;i<App.selectedNames.length;i++) {
+			finalMessage += " " + App.selectedNames[i].Handle;
+		}
+		
+		finalMessage += " " + $('#txtMessage').val();
+		$('#finalMessage').html(finalMessage);
 	},
 }

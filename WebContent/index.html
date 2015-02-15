@@ -21,6 +21,22 @@
 				<div class="title-text-big">{{specialTitle}}</div>
 			</script>
 		</div>
+
+		<div class="selectedNames">
+			<script id="selectedNames-body" type="text/x-handlebars-template">
+				<div contenteditable="true" id="txtHandles" rows="1" style="width:200px; text-align:center;display: inline-block;"/>
+				<br/>
+				Selected Names: <div id="selectedNames" style="background-color:black; padding:10px; display:inline-block;">
+				{{#each selectedNames}}
+				<span style="padding:5px; background-color:white">{{this.Name}}&nbsp;<span onclick="App.removeName('{{this.Handle}}');">X</span></span>
+				{{/each}}
+				</div>
+				<br/>
+				Final Message: <div id="finalMessage"/>
+				<br/>
+			</script>
+		</div>
+		
 		<div class="main">
 			<script id="main-body" type="text/x-handlebars-template">
 				<div class="special-overlay">
@@ -41,12 +57,8 @@
 						{{#times unlockQuantity}}
 							<div class="counter-div-empty">{{this}}</div>
 						{{/times}}
-					
-						<div contenteditable="true" 
-							id="txtHandles" 
-							rows="1"></div>
 						<p id="jmaTweetInfo">#JoinMeAt {{merchHandle}}</p>
-						<textarea id="txtMessage" maxlength="140" rows="4" placeholder="Enter message here" onkeydown="Util.charCounter()"></textarea>
+						<textarea id="txtMessage" maxlength="140" rows="4" placeholder="Enter message here" onkeydown="Util.charCounter();" onkeyup="App.updateFinal();" onchange="App.updateFinal();" ></textarea>
 						<p id="twitterCounter">0/140</p>
 						<button class="redeem ladda-button" data-style="zoom-in" onClick="App.updateStatus()">
 							<span class="ladda-label btn-title animated flipInX">
@@ -80,7 +92,7 @@
 				<p>Use: {{startTime}} - {{endTime}}</p>
 			</script>
 		</div>
-
+			
 		<div class="footer">
 			<img class="logo" src="assets/JMA-logo.png">
 			<div class="about-text">JoinMe@ is a new kind of deal-sharing and loyalty app.<br>
