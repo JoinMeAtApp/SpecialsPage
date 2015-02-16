@@ -12,6 +12,19 @@ body {
 	height: 100%;
 }
 
+/* jQuery UI Autocomplete Tweaks */
+.ui-autocomplete {
+	background-color: grey;
+	text-align: left;
+	font-weight: bold;
+}
+
+.ui-menu-item {
+	text-align: left;
+	font-weight: bold;
+}
+/* end jQuery UI Tweaks */
+
 /* Button Styles */
 .redeem {
 	width: 50%;

@@ -134,6 +134,7 @@ App = {
 					});
 					var midHtml = midTemplate(pageData);
 					var snHtml = snTemplate({
+						isTweetPage: App.isTweetPage,
 						selectedNames: App.selectedNames
 					});
 					$('.top').html(topHtml);
@@ -142,7 +143,7 @@ App = {
 
 					if ($('#txtMessage').length > 0)
 						Util.charCounter();
-
+					
 					$('#txtHandles').autocomplete({
 						minlength: 4,
 						delay: 300,
@@ -179,6 +180,7 @@ App = {
 							if (!containsName)
 								App.selectedNames.push(twitterHandleAndName);
 							var snHtml = snTemplate({
+								isTweetPage: App.isTweetPage,
 								selectedNames: App.selectedNames
 							});
 							$('.selectedNames').html(snHtml);
@@ -333,6 +335,7 @@ App = {
 		}
 		
 		var snHtml = snTemplate({
+			isTweetPage: App.isTweetPage,
 			selectedNames: App.selectedNames
 		});
 		$('.selectedNames').html(snHtml);
