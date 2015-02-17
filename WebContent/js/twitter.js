@@ -21,8 +21,8 @@ Twitter = {
 	getUserInfo: function() {
 		Util.getCookies().then( function(cookies) {
 			$.ajax({
-				//url: App.constants.URL_GSON + 'Twitter/user',
-				url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/user',
+				url: App.constants.URL_GSON + 'Twitter/user',
+				//url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/user',
 				type: 'POST',
 				dataType: 'json',
 				data: { verifier: cookies.verifier, token: cookies.oauthToken, tokenSecret: cookies.oauthSecret },
@@ -78,8 +78,8 @@ Twitter = {
 			function(cookies) {
 
 				return $.ajax({
-					//url: App.constants.URL_GSON + 'Twitter/confirm',
-					url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/users/search',
+					url: App.constants.URL_GSON + 'Twitter/users/search',
+					//url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/users/search',
 					type: 'POST',
 					dataType: 'json',
 					data: { 

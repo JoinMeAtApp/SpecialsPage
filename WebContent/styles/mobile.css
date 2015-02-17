@@ -18,26 +18,52 @@ textarea {
 	height: 25%;
 }
 
-.counter-div-empty {
+.counter-div {
 	display: inline-block;
 	margin: 5px;
 	padding: 5px;
-	background-color: #148AB8;
+	background-size: 200% 100%;
+	background-position: right bottom;
+	transition: all 1s ease;
+	border: solid;
+	border-width: 3px;
+	border-color: #148AB8;
 	text-align: center;
 	align: center;
-	color: white;
+	color: #148AB8;
 	width: 25%;
 }
 
-.counter-div-full {
+.counter-div-full-animate {
 	display: inline-block;
 	margin: 5px;
 	padding: 5px;
-	background-color: red;
-	text-align: center;
-	align: center;
-	color: white;
+	background: linear-gradient(to right, #148AB8 50%, white 50%);
+	background-size: 200% 100%;
+	background-position: left bottom;
+	transition: all 1s ease;
+	border: solid;
+	border-width: 3px;
+	border-color: #148AB8;
 	width: 25%;
+	text-align: center;
+	color: white;
+}
+
+.counter-div-empty-animate {
+	display: inline-block;
+	margin: 5px;
+	padding: 5px;
+	background: linear-gradient(to right, #148AB8 50%, white 50%);
+	background-size: 200% 100%;
+	background-position: right bottom;
+	transition: all 1s ease;
+	border: solid;
+	border-width: 3px;
+	border-color: #148AB8;
+	width: 25%;
+	text-align: center;
+	color: #148AB8;
 }
 
 /* jQuery UI Autocomplete Tweaks */
@@ -56,6 +82,11 @@ textarea {
 	padding: 5px;
 	width: 30%;
 	display: inline-block;
+}
+
+.cancelImg {
+	float: right;
+	vertical-align: center;
 }
 
 #txtHandles {

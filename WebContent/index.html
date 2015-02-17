@@ -39,7 +39,9 @@
 				{{else}}
 					{{#if isTweetPage}}
 						{{#times unlockQuantity}}
-							<div class="counter-div-empty">{{this}}</div>
+							<div class="counter-div">
+								{{this}}
+							</div>
 						{{/times}}
 					
 						<div contenteditable="true" 
@@ -60,7 +62,6 @@
 								<span class="hashtag">{{hashtag}}</span>
 								{{#times unlockQuantity}}
 									<span class="friends" id="friend{{this}}">@Friend{{this}}</span>
-									<!--<span class="friends" id="friend{{@index}}">@Friend{{@index}}</span>-->
 								{{/times}}
 								<span class="merchHandle">{{merchHandle}}</span>
 							</div>

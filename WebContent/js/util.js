@@ -32,7 +32,6 @@ Util = {
 				oauthToken = cookies[i].substring(7);
 			} else if (cookies[i].indexOf('verifier') !== -1) {
 				verifier = cookies[i].substring(10);
-
 			}
 		}
 
@@ -68,6 +67,32 @@ Util = {
 		charCount += 10 + App.merchant.twitterHandle.length;	// 10 == #JoinMeAt + a space
 
 		$('#twitterCounter').html(charCount + '/140');
+	},
+	removeHandle: function (el) {
+		// Remove item from selectedHandles array & remove HTML div
+
+		var handle = $(el).attr('handle');
+		var newArray = new Array();
+
+		for (var i = 0; i < App.selectedHandles.length; i ++) {
+			if (App.selectedHandles[i].value !== handle)
+				newArray.push(App.selectedHandles[i]);
+		}
+
+		App.selectedHandles = newArray;
+		if (App.selectedHandles.length > 0)
+			App.curLabel = App.selectedHandles[App.selectedHandles.length - 1].label;
+		else
+			App.curLabel = '';
+
+		var $fullCounter = $('.counter-div-full-animate');
+		if (App.selectedHandles.length < $fullCounter.length) {
+			$($fullCounter[$fullCounter.length - 1])
+				.removeClass('counter-div-full-animate')
+				.addClass('counter-div-empty-animate').addClass('counter-div');
+		}
+
+		$(el).remove();
 	},
 	placeCaretAtEnd: function (el) {
 	    el.focus();
