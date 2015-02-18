@@ -8,7 +8,7 @@ $(document).ready(function() {
 	var snSource = $('#selectedNames-body').html();
 	topTemplate = Handlebars.compile(topSource);
 	midTemplate = Handlebars.compile(midSource);
-	snTemplate = Handlebars.compile(snSource);
+	//snTemplate = Handlebars.compile(snSource);
 
 	// If the user hasn't successfully authorized our app...
 	if (code.indexOf('success') === -1) {
@@ -90,7 +90,12 @@ App = {
 			function() {},
 			function(error) {
 				alert('There was a problem logging you in to Twitter.  Please try again!');
-		}).always(function() { spinner.stop(); });
+				spinner.stop();
+		});
+	},
+	txtHandles_click: function() {
+		if ($('#txtHandles').html().indexOf('Enter Twitter Handles') > -1)
+			$('#txtHandles').html('');
 	},
 	getMerchant: function(merchantID, textCode) {
 		var self = this;
@@ -135,13 +140,13 @@ App = {
 						specialTitle: self.special.fDeal
 					});
 					var midHtml = midTemplate(pageData);
-					var snHtml = snTemplate({
+					/*var snHtml = snTemplate({
 						isTweetPage: App.isTweetPage,
 						selectedNames: App.selectedNames
-					});
+					});*/
 					$('.top').html(topHtml);
 					$('.main').html(midHtml);
-					$('.selectedNames').html(snHtml);
+					//$('.selectedNames').html(snHtml);
 
 					if ($('#txtMessage').length > 0)
 						Util.charCounter();
@@ -165,7 +170,7 @@ App = {
 						select: function (event, ui) {
 
 							// Mary's Updates
-							/*App.selectedHandles[App.selectedHandles.length] = ui.item;
+							App.selectedHandles[App.selectedHandles.length] = ui.item;
 							var html = '';
 
 							for (var i = 0; i < App.selectedHandles.length; i ++) {
@@ -173,12 +178,12 @@ App = {
 									'<div class="handleDiv" '
 									+ 'onclick="Util.removeHandle(this)" '
 									+ 'handle="' + App.selectedHandles[i].value + '" contenteditable="false">' 
-									+ '<span>' +  App.selectedHandles[i].label + '</span>'
-									+ '<span style="float:right"><img src="assets/glyphicons/glyphicons-208-remove-2.png"></span>'
+									+  '<div class="handleText">' + App.selectedHandles[i].label + '</div>'
+									+ '<img class="cancelImg" src="assets/glyphicons/glyphicons-208-remove-2.png">'
 									+ '</div>';
 							}
 
-							$('#txtHandles').html(html);*/
+							$('#txtHandles').html(html);
 
 							// End Mary's Updates
 
@@ -190,7 +195,7 @@ App = {
 							
 
 							// Richard's Updates
-							if (App.selectedNames == null)
+							/*if (App.selectedNames == null)
 								App.selectedNames = new Array();
 							var twitterHandleAndName = new Object();
 							twitterHandleAndName.Handle = ui.item.value;
@@ -210,12 +215,14 @@ App = {
 							});
 							$('.selectedNames').html(snHtml);
 
-							App.updateFinal();
+							App.updateFinal();*/
 
 							// End Richard's Updates
 
 							App.curLabel = ui.item.label;
-							Util.placeCaretAtEnd(document.getElementById('txtHandles'));
+							Util.charCounter();
+							var elementsArr = document.getElementsByClassName('handleDiv');
+							Util.placeCaretAtEnd(elementsArr[elementsArr.length - 1]);
 
 							var $counterDivs = $('.counter-div');
 							if ($counterDivs.length > 0) {
@@ -241,12 +248,16 @@ App = {
 			alert('Make sure you include a message!');
 			spinner.stop();
 			return;
+		} else if ($('.handleDiv').length < App.special.unlockQuantity) {
+			alert('Make sure you Tweet to ' + App.special.unlockQuantity + ' friends!');
+			spinner.stop();
+			return;
 		}
 
 		var tweetText = '';
 		var $handles = $('.handleDiv');
 		for (var i = 0; i < $handles.length; i ++) {
-			tweetText += '@' + $($handles[i]).attr('handle') + ' ';
+			tweetText += $($handles[i]).attr('handle') + ' ';
 		}
 
 		tweetText += $('#txtMessage').val().trim() + ' #JoinMeAt @' + App.merchant.twitterHandle;
@@ -372,11 +383,11 @@ App = {
 			}
 		}
 		
-		var snHtml = snTemplate({
+		/*var snHtml = snTemplate({
 			isTweetPage: App.isTweetPage,
 			selectedNames: App.selectedNames
 		});
-		$('.selectedNames').html(snHtml);
+		$('.selectedNames').html(snHtml);*/
 		
 		App.updateFinal();
 	},

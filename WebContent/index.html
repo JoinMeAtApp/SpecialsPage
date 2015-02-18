@@ -44,11 +44,16 @@
 								{{this}}
 							</div>
 						{{/times}}
-						<br/>
-						Enter Name: <div contenteditable="true" id="txtHandles" rows="1" style="width:200px; text-align:center;display: inline-block;background-color: white; border:2px solid #dadada;"/>
-						<br/><br/>
+
+						<div contenteditable="true" 
+							id="txtHandles" 
+							onclick="App.txtHandles_click()"
+							rows="1">Enter Twitter Handles</div>
+						<!--Enter Name: <div contenteditable="true" id="txtHandles" rows="1" style="width:200px; text-align:center;display: inline-block;background-color: white; border:2px solid #dadada;"/>-->
+						
 						<p id="jmaTweetInfo">#JoinMeAt {{merchHandle}}</p>
-						<textarea id="txtMessage" maxlength="140" rows="4" placeholder="Enter message here" onkeydown="Util.charCounter();" onkeyup="App.updateFinal();" onchange="App.updateFinal();" ></textarea>
+						<textarea id="txtMessage" maxlength="140" rows="4" placeholder="Enter message here" onkeydown="Util.charCounter()"></textarea>
+						<!--<textarea id="txtMessage" maxlength="140" rows="4" placeholder="Enter message here" onkeydown="Util.charCounter();" onkeyup="App.updateFinal();" onchange="App.updateFinal();" ></textarea>-->
 						<p id="twitterCounter">0/140</p>
 						<button class="redeem ladda-button" data-style="zoom-in" onClick="App.updateStatus()">
 							<span class="ladda-label btn-title animated flipInX">
@@ -79,21 +84,6 @@
 				{{/if}}
 
 				<p>Use: {{startTime}} - {{endTime}}</p>
-			</script>
-		</div>
-
-		<div class="selectedNames" style="background-color: #FFFFFF;">
-			<script id="selectedNames-body" type="text/x-handlebars-template">
-				{{#if isTweetPage}}
-					Selected Names: <div id="selectedNames" style="background-color:black; padding:10px; display:inline-block;">
-					{{#each selectedNames}}
-					<span style="padding:5px; background-color:white">{{this.Name}}&nbsp;<span onclick="App.removeName('{{this.Handle}}');">X</span></span>
-					{{/each}}
-					</div>
-					<br/><br/>
-					Final Message: <div id="finalMessage"/>
-					<br/>
-				{{/if}}
 			</script>
 		</div>
 			

@@ -80,18 +80,29 @@ textarea {
 /* end jQuery UI Tweaks */
 
 .handleDiv {
-	background: grey;
-	color: white;
-	font-weight: bold;
+	background: #148AB8;
 	margin: 3px;
 	padding: 5px;
-	width: 30%;
+	width: 40%;
+	display: inline-block;
+}
+
+.handleText {
+	width: 80%;
+	float: left;
+	white-space: nowrap;
+  	overflow: hidden;
+  	text-overflow: ellipsis;
+	color: white;
 	display: inline-block;
 }
 
 .cancelImg {
 	float: right;
-	vertical-align: center;
+	vertical-align: middle;
+	width: 10%;
+	display: inline-block;
+	margin: 3px;
 }
 
 #txtHandles {
@@ -101,6 +112,7 @@ textarea {
 	border-width: 1px;
 	border-style: solid;
 	border-color: grey;
+	color: grey;
 }
 
 #jmaTweetInfo {

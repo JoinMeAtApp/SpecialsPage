@@ -64,7 +64,12 @@ Util = {
 	},
 	charCounter: function() {
 		var charCount = $('#txtMessage').val().length;
+		var $handles = $('.handleDiv');
 		charCount += 10 + App.merchant.twitterHandle.length;	// 10 == #JoinMeAt + a space
+
+		for (var i = 0; i < $handles.length; i ++) {
+			charCount += $($handles[i]).attr('handle').length;
+		}
 
 		$('#twitterCounter').html(charCount + '/140');
 	},
@@ -93,6 +98,8 @@ Util = {
 		}
 
 		$(el).remove();
+
+		this.charCounter();
 	},
 	placeCaretAtEnd: function (el) {
 	    el.focus();
