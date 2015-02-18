@@ -67,8 +67,13 @@ textarea {
 }
 
 /* jQuery UI Autocomplete Tweaks */
+.ui-autocomplete {
+	background-color: grey;
+	text-align: left;
+	font-weight: bold;
+}
+
 .ui-menu-item {
-	background: grey;
 	text-align: left;
 	font-weight: bold;
 }
