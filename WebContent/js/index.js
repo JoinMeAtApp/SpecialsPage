@@ -66,7 +66,7 @@ $(document).ready(function() {
 
 App = {	
 	constants: {
-		URL_GSON: 'https://app.joinmeatapp.com/Prod/rs/',
+		URL_GSON: 'https://app.joinmeatapp.com/JoinMeAt_v2_TwitterDB/rs/',
 		IMG_LOC: 'https://s3.amazonaws.com/joinmeatapp.images/',
 		LOGO_LOC: 'https://s3.amazonaws.com/joinmeatapp.logos/'
 	},

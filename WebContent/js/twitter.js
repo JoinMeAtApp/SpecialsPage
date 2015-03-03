@@ -6,9 +6,8 @@ Twitter = {
 			//url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/oauth',
 			type: 'POST',
 			dataType: 'json',
-			success: function(data) {
-				document.cookie = "token=" + data.token;
-				document.cookie = "tokenSecret=" + data.tokenSecret;
+			success: function(url) {
+				document.cookie = "twitterID=" + data.twitterID;
 				window.location = data.authURL;
 				return true;
 			},
@@ -25,7 +24,7 @@ Twitter = {
 				//url: 'http://localhost:8080/JoinMeAt_v2/rs/Twitter/user',
 				type: 'POST',
 				dataType: 'json',
-				data: { verifier: cookies.verifier, token: cookies.oauthToken, tokenSecret: cookies.oauthSecret },
+				data: { twitterID: cookies.twitterID },
 				success: function(data) {
 					App.User = data;
 				},
@@ -38,17 +37,12 @@ Twitter = {
 	},
 	statusUpdate: function(_status) {
 		var cookies = document.cookie.split(';');
-		var oauthToken, oauthSecret, verifier;
+		var twitterID;
 
 		// Get the token & secret, the remove both cookies
 		for (var i = 0; i < cookies.length; i ++) {
-			if (cookies[i].indexOf('tokenSecret') !== -1) {
-				oauthSecret = cookies[i].substring(13);
-			} else if (cookies[i].indexOf('token') !== -1) {
-				oauthToken = cookies[i].substring(7);
-			} else if (cookies[i].indexOf('verifier') !== -1) {
-				verifier = cookies[i].substring(10);
-
+			if (cookies[i].indexOf('twitterID') !== -1) {
+				twitterID = cookies[i].substring(13);
 			}
 		}
 		return $.ajax({
@@ -57,9 +51,7 @@ Twitter = {
 			type: 'POST',
 			dataType: 'json',
 			data: { 
-				twitterToken: oauthToken, 
-				twitterSecret: oauthSecret, 
-				verifier: verifier, 
+				twitterID: twitterID, 
 				senderID: App.User.id,
 				merchantID: App.merchant.merchantID,
 				status: _status },
