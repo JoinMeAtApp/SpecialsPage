@@ -140,13 +140,8 @@ App = {
 						specialTitle: self.special.fDeal
 					});
 					var midHtml = midTemplate(pageData);
-					/*var snHtml = snTemplate({
-						isTweetPage: App.isTweetPage,
-						selectedNames: App.selectedNames
-					});*/
 					$('.top').html(topHtml);
 					$('.main').html(midHtml);
-					//$('.selectedNames').html(snHtml);
 
 					if ($('#txtMessage').length > 0)
 						Util.charCounter();
@@ -267,57 +262,67 @@ App = {
 				if (!data.isJMAException) {
 					Util.logTweetClick();
 
-					var withinTimeFrame = false;
-	    			var now = moment();
-	    			var start = moment.utc(App.special.fStartTimeUTC).local();
-	    			var end = moment.utc(App.special.fStopTimeUTC).local();
+					// If the Special Type is the new "HostSpot" type...
+					if (App.special.type == 'HostSpotType') {
+						// 1. Grab the div with id="redirect"
+						// 2. Set div's 2nd attribute (possibly named "didSucceed" or something) to true
+						// 3. Close this window 
+					 	var redirect = window.opener.document.getElementById('redirect');
+						redirect.attributes[1].value = true;
+						window.close();
+					} else {
+						// Otherwise, go about our usual business.
+						var withinTimeFrame = false;
+		    			var now = moment();
+		    			var start = moment.utc(App.special.fStartTimeUTC).local();
+		    			var end = moment.utc(App.special.fStopTimeUTC).local();
 
-	    			if (now.isBetween(start, end)) {
-	    				withinTimeFrame = true;
-	    			}
+		    			if (now.isBetween(start, end)) {
+		    				withinTimeFrame = true;
+		    			}
 
-				    var pageData = {
-						hashtag: '#JoinMeAt', 
-						merchHandle: '@' + App.merchant.twitterHandle,
-						unlockQuantity: App.special.unlockQuantity,
-				    	helperText: "You've Tweeted successfully!  Redeem your offer now!",
-				    	specialTitle: App.special.fDeal,
-						restrictions: App.special.fRestrictions,
-						image: App.constants.IMG_LOC + App.special.image,
-						startTime: start.format('MMM Do, h:mm a'),
-						endTime: end.format('MMM Do, h:mm a'),
-						isWithinTimeFrame: withinTimeFrame,
-						isDisabled: withinTimeFrame ? '' : 'disabled',
-						isLoginPage: false,
-						isTweetPage: false,
-						isRedeemPage: true,
-						isFinishPage: false,
-				    };
+					    var pageData = {
+							hashtag: '#JoinMeAt', 
+							merchHandle: '@' + App.merchant.twitterHandle,
+							unlockQuantity: App.special.unlockQuantity,
+					    	helperText: "You've Tweeted successfully!  Redeem your offer now!",
+					    	specialTitle: App.special.fDeal,
+							restrictions: App.special.fRestrictions,
+							image: App.constants.IMG_LOC + App.special.image,
+							startTime: start.format('MMM Do, h:mm a'),
+							endTime: end.format('MMM Do, h:mm a'),
+							isWithinTimeFrame: withinTimeFrame,
+							isDisabled: withinTimeFrame ? '' : 'disabled',
+							isLoginPage: false,
+							isTweetPage: false,
+							isRedeemPage: true,
+							isFinishPage: false,
+					    };
 
-				    var midHtml = midTemplate(pageData);
-				    $('.main').html(midHtml);
-				    $('.helperText').hide();
+					    var midHtml = midTemplate(pageData);
+					    $('.main').html(midHtml);
+					    $('.helperText').hide();
 
-				    var timer = 500;
-					$('.hashtag').addClass('animated bounceIn');
-					for (var i = 1; i <= App.special.unlockQuantity; i ++) {
-						var $friend = $('#friend' + i);
-						window.setTimeout(function() { $friend.addClass('animated bounceIn'); }, timer);
+					    var timer = 500;
+						$('.hashtag').addClass('animated bounceIn');
+						for (var i = 1; i <= App.special.unlockQuantity; i ++) {
+							var $friend = $('#friend' + i);
+							window.setTimeout(function() { $friend.addClass('animated bounceIn'); }, timer);
+							timer += 500;
+						}
+						window.setTimeout(function() { $('.merchHandle').addClass('animated bounceIn'); }, timer);
 						timer += 500;
-					}
-					window.setTimeout(function() { $('.merchHandle').addClass('animated bounceIn'); }, timer);
-					timer += 500;
 
-					window.setTimeout(function() { $('.svgAnimations').addClass('animated fadeOut'); }, timer);
-					timer += 700;
+						window.setTimeout(function() { $('.svgAnimations').addClass('animated fadeOut'); }, timer);
+						timer += 700;
 
-					window.setTimeout(function() {
-						$('.svgAnimations')
-						.html("<p>You've Tweeted successfully!  Redeem your offer now!</p>")
-						.removeClass('fadeOut')
-						.addClass('animated fadeIn');
-					}, timer);
-
+						window.setTimeout(function() {
+							$('.svgAnimations')
+							.html("<p>You've Tweeted successfully!  Redeem your offer now!</p>")
+							.removeClass('fadeOut')
+							.addClass('animated fadeIn');
+						}, timer);
+					}			
 				} else {
 					// handle exceptions
 				}
