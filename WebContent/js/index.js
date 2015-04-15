@@ -1,7 +1,18 @@
 $(document).ready(function() {
 	var url = window.location.search.substring(1);
 	var vars = url.split("=");
-	var code = vars[1];
+	var code, res, uamip, uamport, challenge, nasid, mac, refURL;
+	code = vars[1].split('&')[0];
+
+	if (vars.length > 2) {
+		document.cookie = "res=" + vars[2].split('&')[0];		// User's status
+		document.cookie = "uamip=" + vars[3].split('&')[0];		// AP IP
+		document.cookie = "uamport=" + vars[4].split('&')[0];	// AP Port
+		document.cookie = "challenge=" + vars[5].split('&')[0];	// Authentication
+		document.cookie = "nasid=" + vars[6].split('&')[0];		// AP ID
+		document.cookie = "mac=" + vars[7].split('&')[0]; 		// Mac from user
+		document.cookie = "refURL=" + vars[8].split('&')[0];	// Referral URL
+	}
 
 	var topSource = $('#top').html();
 	var midSource = $('#main-body').html();
@@ -182,38 +193,6 @@ App = {
 
 							// End Mary's Updates
 
-
-							//$('#txtHandles').append(
-							//	'<div class="handleDiv" handle="' + ui.item.value + '" contenteditable="false">' 
-							//	+ ui.item.label 
-							//	+ '</div>');
-							
-
-							// Richard's Updates
-							/*if (App.selectedNames == null)
-								App.selectedNames = new Array();
-							var twitterHandleAndName = new Object();
-							twitterHandleAndName.Handle = ui.item.value;
-							twitterHandleAndName.Name = ui.item.label;
-							var containsName = false;
-							for (var i=App.selectedNames.length-1;i>=0;i--) {
-								if (App.selectedNames[i].Handle == twitterHandleAndName.Handle) {
-									containsName = true;
-									break;
-								}
-							}
-							if (!containsName)
-								App.selectedNames.push(twitterHandleAndName);
-							var snHtml = snTemplate({
-								isTweetPage: App.isTweetPage,
-								selectedNames: App.selectedNames
-							});
-							$('.selectedNames').html(snHtml);
-
-							App.updateFinal();*/
-
-							// End Richard's Updates
-
 							App.curLabel = ui.item.label;
 							Util.charCounter();
 							var elementsArr = document.getElementsByClassName('handleDiv');
@@ -262,14 +241,46 @@ App = {
 				if (!data.isJMAException) {
 					Util.logTweetClick();
 
-					// If the Special Type is the new "HostSpot" type...
-					if (App.special.type == 'HostSpotType') {
-						// 1. Grab the div with id="redirect"
-						// 2. Set div's 2nd attribute (possibly named "didSucceed" or something) to true
-						// 3. Close this window 
-					 	var redirect = window.opener.document.getElementById('redirect');
-						redirect.attributes[1].value = true;
-						window.close();
+					// If the Special Type is the new type...
+					if (App.special.type == 4) {
+						// 1. Pull values from cookies
+						// 2. Assemble URL
+						// 3. Create div to load URL, then redirect
+						var code, res, uamip, uamport, challenge, nasid, mac, refURL;
+						var cookies = document.cookie.split(';');
+						for (var i = 0; i < cookies.length; i ++) {
+							if (cookies[i].indexOf('res') !== -1) {
+								res = cookies[i].split('=')[1];
+							} else if (cookies[i].indexOf('uamip') !== -1) {
+								uamip = cookies[i].split('=')[1];
+							} else if (cookies[i].indexOf('uamport') !== -1) {
+								uamport = cookies[i].split('=')[1]; 
+							} else if (cookies[i].indexOf('challenge') !== -1) {
+								challenge = cookies[i].split('=')[1];
+							} else if (cookies[i].indexOf('nasid') !== -1) {
+								nasid = cookies[i].split('=')[1];
+							}  else if (cookies[i].indexOf('mac') !== -1) {
+								mac = cookies[i].split('=')[1];
+							}  else if (cookies[i].indexOf('refURL') !== -1) {
+								refURL = cookies[i].split('=')[1]; 
+							}
+						}
+
+						var finalUrl = "http://geniusden.com/";
+					 	var hostSpotURL = "http://" 
+					 		+ uamip + ':' 
+					 		+ uamport 
+					 		+ "/logon?username=cocacola&"
+					 		+ "password=" + challenge 
+					 		+ "&userurl=" + refURL;
+
+						var ddhs=document.createElement("div");
+			            ddhs.setAttribute("id","ddhs"); 
+			            ddhs.setAttribute("style","width:0px;height:0px;"); 
+			            document.body.appendChild(ddhs); 
+			            $('#ddhs-div').hide(); 
+			            $("#ddhs").load(hostSpotURL, function(){ setTimeout("window.location='" + finalUrl + "'",1000); });
+
 					} else {
 						// Otherwise, go about our usual business.
 						var withinTimeFrame = false;
